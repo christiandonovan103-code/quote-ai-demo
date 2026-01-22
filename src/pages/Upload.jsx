@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
+import Container from "../components/Container.jsx";
+import Card from "../components/Card.jsx";
+import Button from "../components/Button.jsx";
 
 export default function Upload() {
   const nav = useNavigate();
@@ -7,70 +10,43 @@ export default function Upload() {
   return (
     <>
       <Header title="Upload" backTo="/new-quote" />
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
-        <div style={{ paddingTop: 10 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 900, margin: "10px 0 6px" }}>Upload plans & photos</h1>
-          <p style={{ color: "#6b7280", margin: 0 }}>
-            Demo upload — in the real app you’d add a PDF plan set and job photos.
-          </p>
-        </div>
+      <Container size="lg">
+        <h1 className="page-title">Upload plans & photos</h1>
+        <p className="page-subtitle">Add plans and site photos so Quote AI can extract quantities.</p>
 
-        <div
-          style={{
-            background: "white",
-            border: "1px solid #e5e7eb",
-            borderRadius: 18,
-            padding: 18,
-            boxShadow: "0 8px 20px rgba(0,0,0,.05)",
-            marginTop: 14,
-          }}
-        >
-          <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
-            <div style={{ border: "1px dashed #d1d5db", borderRadius: 18, padding: 16 }}>
+        <Card className="card--muted" style={{ marginTop: 16 }}>
+          <div className="grid grid--cards">
+            <Card className="card--dashed">
               <div style={{ fontWeight: 900 }}>Plans (PDF)</div>
-              <div style={{ color: "#6b7280", fontSize: 13, marginTop: 6 }}>Drop plan set here</div>
-              <div style={{ marginTop: 12, color: "#6b7280", fontSize: 12 }}>Example: Kitchen plan.pdf</div>
-            </div>
+              <div className="page-subtitle" style={{ fontSize: 13, marginTop: 6 }}>
+                Drop plan set here
+              </div>
+              <div className="page-subtitle" style={{ fontSize: 12, marginTop: 12 }}>
+                Example: Kitchen plan.pdf
+              </div>
+            </Card>
 
-            <div style={{ border: "1px dashed #d1d5db", borderRadius: 18, padding: 16 }}>
+            <Card className="card--dashed">
               <div style={{ fontWeight: 900 }}>Site photos</div>
-              <div style={{ color: "#6b7280", fontSize: 13, marginTop: 6 }}>Drop photos here</div>
-              <div style={{ marginTop: 12, color: "#6b7280", fontSize: 12 }}>Example: IMG_0123.jpg</div>
-            </div>
+              <div className="page-subtitle" style={{ fontSize: 13, marginTop: 6 }}>
+                Drop photos here
+              </div>
+              <div className="page-subtitle" style={{ fontSize: 12, marginTop: 12 }}>
+                Example: IMG_0123.jpg
+              </div>
+            </Card>
           </div>
 
-          <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-            <button
-              onClick={() => nav("/analyze")}
-              style={{
-                padding: "12px 16px",
-                borderRadius: 14,
-                border: "none",
-                background: "#2f4a2f",
-                color: "white",
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
+          <div className="actions" style={{ marginTop: 16 }}>
+            <Button variant="primary" onClick={() => nav("/analyze")}>
               Analyse with AI
-            </button>
-
-            <button
-              onClick={() => nav("/new-quote")}
-              style={{
-                padding: "12px 16px",
-                borderRadius: 14,
-                border: "1px solid #e5e7eb",
-                background: "white",
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
+            </Button>
+            <Button variant="secondary" onClick={() => nav("/new-quote")}>
               Back
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+        </Card>
+      </Container>
     </>
   );
 }

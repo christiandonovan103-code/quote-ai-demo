@@ -1,75 +1,83 @@
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header.jsx";
+import Container from "../components/Container.jsx";
+import Card from "../components/Card.jsx";
+import Button from "../components/Button.jsx";
 
 export default function Preview() {
   const nav = useNavigate();
 
   return (
-    <div style={{ maxWidth: 980, margin: "24px auto", padding: 16 }}>
-      <h1 style={{ fontSize: 28, fontWeight: 900 }}>Quote Preview</h1>
-      <p style={{ color: "#6b7280" }}>Demo preview — what your client would see.</p>
-
-      <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: 18, padding: 18, boxShadow: "0 8px 20px rgba(0,0,0,.05)", marginTop: 14 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+    <>
+      <Header title="Preview" backTo="/pricing" />
+      <Container size="xl">
+        <div className="page-heading">
           <div>
-            <div style={{ fontWeight: 900, fontSize: 18 }}>Quote AI Carpentry</div>
-            <div style={{ color: "#6b7280" }}>Sydney NSW</div>
+            <h1 className="page-title">Quote preview</h1>
+            <p className="page-subtitle">Review the client-ready quote before sending.</p>
           </div>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontWeight: 900 }}>QUOTE</div>
-            <div style={{ color: "#6b7280" }}>#QA-1024</div>
-          </div>
+          <Button variant="secondary" className="no-print" onClick={() => window.print()}>
+            Download / Print Quote
+          </Button>
         </div>
 
-        <div style={{ height: 1, background: "#e5e7eb", margin: "14px 0" }} />
-
-        <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: "#6b7280" }}>Client</div>
-            <div style={{ fontWeight: 900 }}>Smith</div>
-            <div style={{ color: "#6b7280" }}>12 Example St, Sydney NSW</div>
+        <Card style={{ marginTop: 16 }}>
+          <div className="preview-header">
+            <div>
+              <div style={{ fontWeight: 900, fontSize: 18 }}>Quote AI Carpentry</div>
+              <div className="page-subtitle">Sydney NSW</div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontWeight: 900 }}>QUOTE</div>
+              <div className="page-subtitle">#QA-1024</div>
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: "#6b7280" }}>Job</div>
-            <div style={{ fontWeight: 900 }}>Kitchen Renovation</div>
-            <div style={{ color: "#6b7280" }}>Scope generated from plans + photos</div>
+
+          <div className="divider" />
+
+          <div className="grid grid--cards">
+            <div>
+              <div className="input-label">Client</div>
+              <div style={{ fontWeight: 900 }}>Smith</div>
+              <div className="page-subtitle">12 Example St, Sydney NSW</div>
+            </div>
+            <div>
+              <div className="input-label">Job</div>
+              <div style={{ fontWeight: 900 }}>Kitchen Renovation</div>
+              <div className="page-subtitle">Scope generated from plans + photos</div>
+            </div>
+            <div>
+              <div className="input-label">Total</div>
+              <div style={{ fontWeight: 900, fontSize: 22 }}>$8,827.50</div>
+              <div className="page-subtitle">Incl. GST</div>
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: "#6b7280" }}>Total</div>
-            <div style={{ fontWeight: 900, fontSize: 22 }}>$8,827.50</div>
-            <div style={{ color: "#6b7280" }}>Incl. GST</div>
+
+          <div className="divider" />
+
+          <div style={{ fontWeight: 900, marginBottom: 8 }}>Key scope items</div>
+          <ul className="list">
+            <li>Remove existing cabinets</li>
+            <li>Install base & overhead cabinets</li>
+            <li>Fit kickers & fillers</li>
+            <li>Skirting & trims</li>
+            <li>Hardware allowance</li>
+          </ul>
+
+          <div className="page-subtitle" style={{ fontSize: 12 }}>
+            Terms: 30% deposit to commence • Balance on completion • Valid 14 days.
           </div>
-        </div>
 
-        <div style={{ height: 1, background: "#e5e7eb", margin: "14px 0" }} />
-
-        <div style={{ fontWeight: 900, marginBottom: 8 }}>Key scope items</div>
-        <ul style={{ marginTop: 0, lineHeight: 1.6 }}>
-          <li>Remove existing cabinets</li>
-          <li>Install base & overhead cabinets</li>
-          <li>Fit kickers & fillers</li>
-          <li>Skirting & trims</li>
-          <li>Hardware allowance</li>
-        </ul>
-
-        <div style={{ color: "#6b7280", fontSize: 12 }}>
-          Terms: 30% deposit to commence • Balance on completion • Valid 14 days.
-        </div>
-
-        <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-          <button
-            onClick={() => nav("/sent")}
-            style={{ padding: "12px 16px", borderRadius: 14, border: "none", background: "#2f4a2f", color: "white", fontWeight: 900, cursor: "pointer" }}
-          >
-            Send Quote
-          </button>
-          <button
-            onClick={() => nav("/pricing")}
-            style={{ padding: "12px 16px", borderRadius: 14, border: "1px solid #e5e7eb", background: "white", fontWeight: 900, cursor: "pointer" }}
-          >
-            Back
-          </button>
-        </div>
-      </div>
-    </div>
+          <div className="actions no-print" style={{ marginTop: 16 }}>
+            <Button variant="primary" onClick={() => nav("/sent")}>
+              Send Quote
+            </Button>
+            <Button variant="secondary" onClick={() => nav("/pricing")}>
+              Back
+            </Button>
+          </div>
+        </Card>
+      </Container>
+    </>
   );
 }
