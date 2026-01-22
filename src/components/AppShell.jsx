@@ -1,0 +1,43 @@
+import { NavLink } from "react-router-dom";
+import Container from "./Container.jsx";
+
+const navItems = [
+  { label: "Dashboard", to: "/dashboard" },
+  { label: "New Quote", to: "/new-quote" },
+  { label: "Quotes", to: "/dashboard" },
+];
+
+export default function AppShell({ title, children }) {
+  return (
+    <div className="app-shell">
+      <header className="app-header">
+        <Container size="xl" className="app-header__inner">
+          <div className="app-header__brand">
+            <div className="app-header__logo">Quote AI</div>
+            <div className="app-header__title">{title}</div>
+          </div>
+          <div className="user-chip user-chip--demo">Demo</div>
+        </Container>
+      </header>
+
+      <div className="app-body">
+        <aside className="app-sidebar">
+          <nav className="sidebar-nav">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.label}
+                to={item.to}
+                className={({ isActive }) =>
+                  ["sidebar-link", isActive ? "sidebar-link--active" : ""].filter(Boolean).join(" ")
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        </aside>
+        <main className="app-content">{children}</main>
+      </div>
+    </div>
+  );
+}

@@ -1,5 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
+import AppShell from "../components/AppShell.jsx";
+import Container from "../components/Container.jsx";
+import Card from "../components/Card.jsx";
+import Button from "../components/Button.jsx";
+import Stepper from "../components/Stepper.jsx";
+import QuoteSummary from "../components/QuoteSummary.jsx";
+import Toast from "../components/Toast.jsx";
 
 const initialItems = [
   { item: "Remove existing cabinets", qty: 1, unit: "job", cost: 520 },
@@ -16,6 +23,7 @@ function money(n) {
 export default function Scope() {
   const nav = useNavigate();
   const [rows, setRows] = useState(initialItems);
+  const [showToast, setShowToast] = useState(false);
 
   const base = useMemo(() => rows.reduce((s, r) => s + (Number(r.cost) || 0), 0), [rows]);
 
@@ -23,82 +31,70 @@ export default function Scope() {
     setRows(rows.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
   }
 
+  function handleSave() {
+    setShowToast(true);
+    window.setTimeout(() => setShowToast(false), 2000);
+  }
+
   return (
-    <div style={{ maxWidth: 980, margin: "24px auto", padding: 16 }}>
-      <h1 style={{ fontSize: 28, fontWeight: 900 }}>AI-Generated Scope (Editable)</h1>
-      <p style={{ color: "#6b7280" }}>Review and adjust items before pricing.</p>
+    <AppShell title="Scope">
+      <Container size="xl">
+        <Stepper current={2} />
+        <h1 className="page-title">AI-generated scope</h1>
+        <p className="page-subtitle">Review and tweak line items before pricing the job.</p>
 
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10, marginBottom: 14 }}>
-        <div style={{ border: "1px solid #e5e7eb", borderRadius: 999, padding: "8px 10px", background: "#fafafa", fontWeight: 900 }}>
-          Items generated: {rows.length}
+        <div className="actions section">
+          <div className="badge">Items generated: {rows.length}</div>
+          <div className="badge">Base total: {money(base)}</div>
         </div>
-        <div style={{ border: "1px solid #e5e7eb", borderRadius: 999, padding: "8px 10px", background: "#fafafa", fontWeight: 900 }}>
-          Base total: {money(base)}
+
+        <div className="content-grid section">
+          <div>
+            <Card>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th style={{ width: 90 }}>Qty</th>
+                    <th style={{ width: 90 }}>Unit</th>
+                    <th style={{ width: 140 }}>Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r, idx) => (
+                    <tr key={idx}>
+                      <td>
+                        <input value={r.item} onChange={(e) => update(idx, { item: e.target.value })} />
+                      </td>
+                      <td>
+                        <input value={r.qty} onChange={(e) => update(idx, { qty: e.target.value })} />
+                      </td>
+                      <td>
+                        <input value={r.unit} onChange={(e) => update(idx, { unit: e.target.value })} />
+                      </td>
+                      <td>
+                        <input value={r.cost} onChange={(e) => update(idx, { cost: e.target.value })} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Card>
+
+            <div className="actions section">
+              <Button variant="primary" onClick={() => nav("/pricing")}>
+                Next: Pricing
+              </Button>
+              <Button variant="secondary" onClick={() => nav("/upload")}>
+                Back
+              </Button>
+            </div>
+          </div>
+
+          <QuoteSummary onSave={handleSave} />
         </div>
-      </div>
-
-      <div style={{ background: "white", border: "1px solid #e5e7eb", borderRadius: 18, padding: 18, boxShadow: "0 8px 20px rgba(0,0,0,.05)" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ textAlign: "left", color: "#6b7280", fontSize: 12 }}>
-              <th style={{ paddingBottom: 8 }}>Item</th>
-              <th style={{ paddingBottom: 8, width: 90 }}>Qty</th>
-              <th style={{ paddingBottom: 8, width: 90 }}>Unit</th>
-              <th style={{ paddingBottom: 8, width: 140 }}>Cost</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r, idx) => (
-              <tr key={idx} style={{ borderTop: "1px solid #e5e7eb" }}>
-                <td style={{ padding: "10px 6px" }}>
-                  <input
-                    value={r.item}
-                    onChange={(e) => update(idx, { item: e.target.value })}
-                    style={{ width: "100%", padding: 10, borderRadius: 12, border: "1px solid #e5e7eb" }}
-                  />
-                </td>
-                <td style={{ padding: "10px 6px" }}>
-                  <input
-                    value={r.qty}
-                    onChange={(e) => update(idx, { qty: e.target.value })}
-                    style={{ width: "100%", padding: 10, borderRadius: 12, border: "1px solid #e5e7eb" }}
-                  />
-                </td>
-                <td style={{ padding: "10px 6px" }}>
-                  <input
-                    value={r.unit}
-                    onChange={(e) => update(idx, { unit: e.target.value })}
-                    style={{ width: "100%", padding: 10, borderRadius: 12, border: "1px solid #e5e7eb" }}
-                  />
-                </td>
-                <td style={{ padding: "10px 6px" }}>
-                  <input
-                    value={r.cost}
-                    onChange={(e) => update(idx, { cost: e.target.value })}
-                    style={{ width: "100%", padding: 10, borderRadius: 12, border: "1px solid #e5e7eb" }}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div style={{ marginTop: 14, display: "flex", gap: 10 }}>
-        <button
-          onClick={() => nav("/pricing")}
-          style={{ padding: "12px 16px", borderRadius: 14, border: "none", background: "#2f4a2f", color: "white", fontWeight: 900, cursor: "pointer" }}
-        >
-          Next: Pricing
-        </button>
-
-        <button
-          onClick={() => nav("/upload")}
-          style={{ padding: "12px 16px", borderRadius: 14, border: "1px solid #e5e7eb", background: "white", fontWeight: 900, cursor: "pointer" }}
-        >
-          Back
-        </button>
-      </div>
-    </div>
+      </Container>
+      <Toast message="Saved" visible={showToast} />
+    </AppShell>
   );
 }

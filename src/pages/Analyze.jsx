@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header.jsx";
+import AppShell from "../components/AppShell.jsx";
+import Container from "../components/Container.jsx";
+import Card from "../components/Card.jsx";
+import Button from "../components/Button.jsx";
+import Stepper from "../components/Stepper.jsx";
 
 const steps = [
   { t: "Reading plans & photos", d: "Extracting dimensions and key fixtures…" },
   { t: "Detecting rooms & zones", d: "Kitchen, pantry, splashback, openings…" },
   { t: "Estimating quantities", d: "Cabinet runs, trims, hardware allowances…" },
   { t: "Checking completeness", d: "Flagging unknowns and assumptions…" },
-  { t: "Generating scope & allowances", d: "Building an editable scope-of-works…" },
+  { t: "Generating scope & allowances", d: "Building an editable scope of works…" },
 ];
 
 export default function Analyze() {
@@ -15,7 +19,6 @@ export default function Analyze() {
   const [progress, setProgress] = useState(8);
   const [idx, setIdx] = useState(0);
 
-  // Total time ~6–8 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress((p) => Math.min(100, p + 4 + Math.random() * 6));
@@ -40,87 +43,61 @@ export default function Analyze() {
   }, [progress, nav]);
 
   const active = useMemo(() => steps[Math.min(idx, steps.length - 1)], [idx]);
+  const isLoading = progress < 100;
 
   return (
-    <>
-      <Header title="AI Analysis" backTo="/upload" />
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
-        <div style={{ paddingTop: 10 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 900, margin: "10px 0 6px" }}>Analysing your job</h1>
-          <p style={{ color: "#6b7280", margin: 0 }}>
-            Quote AI is extracting quantities and generating an editable scope.
-          </p>
-        </div>
+    <AppShell title="Analyze">
+      <Container size="xl">
+        <Stepper current={1} />
+        <h1 className="page-title">Analysing your job</h1>
+        <p className="page-subtitle">Quote AI is reading the files and drafting a scope of works.</p>
 
-        <div
-          style={{
-            background: "white",
-            border: "1px solid #e5e7eb",
-            borderRadius: 18,
-            padding: 18,
-            boxShadow: "0 8px 20px rgba(0,0,0,.05)",
-            marginTop: 14,
-          }}
-        >
-          <div style={{ fontWeight: 900, fontSize: 16 }}>{active.t}</div>
-          <div style={{ color: "#6b7280", marginTop: 6 }}>{active.d}</div>
+        <Card className="section">
+          <div className="section-title">{active.t}</div>
+          <div className="page-subtitle">{active.d}</div>
 
-          <div style={{ marginTop: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6b7280", fontWeight: 800 }}>
+          <div className="section">
+            <div className="progress-meta">
               <span>Progress</span>
               <span>{Math.round(progress)}%</span>
             </div>
-            <div style={{ height: 10, background: "#eef2f7", borderRadius: 999, overflow: "hidden", marginTop: 8 }}>
-              <div style={{ height: "100%", width: `${progress}%`, background: "#2f4a2f" }} />
+            <div className="progress-bar">
+              <div className="progress-bar__fill" style={{ width: `${progress}%` }} />
             </div>
           </div>
 
-          <div style={{ marginTop: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 900, color: "#6b7280", marginBottom: 8 }}>What Quote AI will produce</div>
-            <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.7 }}>
-              <li>Editable scope-of-works</li>
-              <li>Allowances & assumptions</li>
-              <li>Base cost summary</li>
-              <li>Client-ready quote preview</li>
-            </ul>
+          <div className="analysis-grid">
+            <div>
+              <div className="input-label">What Quote AI will produce</div>
+              <ul className="list">
+                <li>Editable scope of works</li>
+                <li>Allowances & assumptions</li>
+                <li>Base cost summary</li>
+                <li>Client-ready quote preview</li>
+              </ul>
+            </div>
+            <div className="skeleton-card" aria-hidden={!isLoading}>
+              <div className="skeleton-line" />
+              <div className="skeleton-line" />
+              <div className="skeleton-line skeleton-line--short" />
+              <div className="skeleton-chip" />
+            </div>
           </div>
 
-          <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              onClick={() => nav("/scope")}
-              style={{
-                padding: "12px 16px",
-                borderRadius: 14,
-                border: "none",
-                background: "#2f4a2f",
-                color: "white",
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
+          <div className="actions section">
+            <Button variant="primary" onClick={() => nav("/scope")}>
               Skip → Scope
-            </button>
-
-            <button
-              onClick={() => nav("/upload")}
-              style={{
-                padding: "12px 16px",
-                borderRadius: 14,
-                border: "1px solid #e5e7eb",
-                background: "white",
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
+            </Button>
+            <Button variant="secondary" onClick={() => nav("/upload")}>
               Back
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
 
-        <div style={{ color: "#6b7280", fontSize: 12, marginTop: 10 }}>
-          Demo note: In the real product this step runs the AI model on your plans/photos.
-        </div>
-      </div>
-    </>
+        <p className="page-subtitle section-muted">
+          Demo note: In production this step runs the AI model on your plans and photos.
+        </p>
+      </Container>
+    </AppShell>
   );
 }
