@@ -69,6 +69,7 @@ export default function Pricing() {
                 <span>Total</span>
                 <span>{money(total)}</span>
               </div>
+            </Card>
 
               <Button variant="primary" fullWidth style={{ marginTop: 14 }} onClick={() => nav("/preview")}>
                 Next: Preview
