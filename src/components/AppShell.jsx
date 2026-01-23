@@ -27,18 +27,6 @@ export default function AppShell({ title, children }) {
           </div>
         </Container>
       </header>
-      <div className="project-strip">
-        <Container size="xl" className="project-strip__inner">
-          <div>
-            <div className="project-strip__title">Smith Kitchen Renovation</div>
-            <div className="project-strip__subtitle">12 Example St, Sydney NSW</div>
-          </div>
-          <div className="project-strip__meta">
-            <span className="status-badge">In Progress</span>
-            <span className="project-strip__muted">Updated today · 2:14 PM</span>
-          </div>
-        </Container>
-      </div>
 
       <div className="app-body">
         <aside className="app-sidebar">

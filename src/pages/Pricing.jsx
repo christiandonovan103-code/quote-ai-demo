@@ -1,12 +1,9 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppShell from "../components/AppShell.jsx";
+import Header from "../components/Header.jsx";
 import Container from "../components/Container.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
-import Stepper from "../components/Stepper.jsx";
-import QuoteSummary from "../components/QuoteSummary.jsx";
-import Toast from "../components/Toast.jsx";
 
 function money(n) {
   return new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number(n) || 0);
@@ -30,84 +27,57 @@ export default function Pricing() {
   }
 
   return (
-    <AppShell title="Pricing">
-      <Container size="xl">
-        <Stepper current={3} />
+    <>
+      <Header title="Pricing" backTo="/scope" />
+      <Container size="lg">
         <h1 className="page-title">Pricing</h1>
         <p className="page-subtitle">Tune margin and GST. Totals update instantly for the client view.</p>
 
-        <div className="content-grid section">
-          <div>
-            <Card>
-              <div className="section-title">Project</div>
-              <div className="page-subtitle">Kitchen Renovation · Smith Family</div>
-              <div className="muted-text">Scope built from plans + photos</div>
-            </Card>
+        <Card style={{ marginTop: 16 }}>
+          <div className="grid grid--cards">
+            <div>
+              <div className="input-label">Base cost</div>
+              <div style={{ fontSize: 22, fontWeight: 900, marginTop: 6 }}>{money(baseCost)}</div>
 
-            <Card className="section">
-              <div className="section-title">Pricing inputs</div>
-              <div className="grid grid--cards section-sm">
-                <div>
-                  <div className="input-label">Base cost</div>
-                  <div className="value-large">{money(baseCost)}</div>
+              <div className="input-label" style={{ marginTop: 14 }}>
+                Margin %
+              </div>
+              <input value={marginPct} onChange={(e) => setMarginPct(e.target.value)} />
 
-                  <div className="input-label section-sm">Margin %</div>
-                  <input value={marginPct} onChange={(e) => setMarginPct(e.target.value)} />
+              <label className="checkbox" style={{ marginTop: 12 }}>
+                <input type="checkbox" checked={gstOn} onChange={(e) => setGstOn(e.target.checked)} />
+                Add GST (10%)
+              </label>
+            </div>
 
-                  <label className="checkbox section-sm">
-                    <input type="checkbox" checked={gstOn} onChange={(e) => setGstOn(e.target.checked)} />
-                    Add GST (10%)
-                  </label>
-                </div>
+            <div>
+              <div className="section-title">Totals</div>
 
-                <div>
-                  <div className="section-title">Totals</div>
+              <div className="totals-row" style={{ marginTop: 12 }}>
+                <span>Subtotal</span>
+                <span className="totals-value">{money(subtotal)}</span>
+              </div>
 
-                  <div className="totals-row section-sm">
-                    <span>Subtotal</span>
-                    <span className="totals-value">{money(subtotal)}</span>
-                  </div>
+              <div className="totals-row">
+                <span>GST</span>
+                <span className="totals-value">{money(gst)}</span>
+              </div>
 
-                  <div className="totals-row">
-                    <span>GST</span>
-                    <span className="totals-value">{money(gst)}</span>
-                  </div>
+              <div className="divider" />
 
-                  <div className="divider" />
-
-                  <div className="totals-row totals-row--strong">
-                    <span>Total</span>
-                    <span>{money(total)}</span>
-                  </div>
-
-                  <Button variant="primary" fullWidth className="section-sm" onClick={() => nav("/preview")}>
-                    Next: Preview
-                  </Button>
-                </div>
+              <div className="totals-row totals-row--strong">
+                <span>Total</span>
+                <span>{money(total)}</span>
               </div>
             </Card>
 
-            <Card className="section">
-              <div className="section-title">Assumptions</div>
-              <div className="input-group">
-                <div className="input-label">Allowances</div>
-                <input placeholder="Appliance allowance included" />
-              </div>
-            </Card>
-
-            <Card className="section">
-              <div className="section-title">Notes</div>
-              <div className="input-group">
-                <div className="input-label">Internal notes</div>
-                <input placeholder="Client approves mid-range hardware" />
-              </div>
-            </Card>
+              <Button variant="primary" fullWidth style={{ marginTop: 14 }} onClick={() => nav("/preview")}>
+                Next: Preview
+              </Button>
+            </div>
           </div>
-
-          <QuoteSummary onSave={handleSave} />
-        </div>
+        </Card>
       </Container>
-      <Toast message="Saved" visible={showToast} />
-    </AppShell>
+    </>
   );
 }
