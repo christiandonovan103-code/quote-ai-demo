@@ -13,14 +13,18 @@ export default function AppShell({ title, children }) {
     <div className="app-shell">
       <header className="app-header">
         <Container size="xl" className="app-header__inner">
-          <div className="app-header__brand">
+          <div className="app-header__left">
             <div className="app-header__logo">
               <img src={logo} alt="Quote AI logo" className="app-logo" />
               <span>Quote AI</span>
             </div>
-            <div className="app-header__title">{title}</div>
           </div>
-          <div className="user-chip user-chip--demo">Demo</div>
+          <div className="app-header__center">
+            <span className="app-header__title">{title}</span>
+          </div>
+          <div className="app-header__right">
+            <div className="user-chip user-chip--demo">Demo</div>
+          </div>
         </Container>
       </header>
 
