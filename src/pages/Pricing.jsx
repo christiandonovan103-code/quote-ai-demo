@@ -15,10 +15,16 @@ export default function Pricing() {
 
   const [marginPct, setMarginPct] = useState(25);
   const [gstOn, setGstOn] = useState(true);
+  const [showToast, setShowToast] = useState(false);
 
   const subtotal = useMemo(() => baseCost * (1 + (Number(marginPct) || 0) / 100), [baseCost, marginPct]);
   const gst = useMemo(() => (gstOn ? subtotal * 0.1 : 0), [subtotal, gstOn]);
   const total = useMemo(() => subtotal + gst, [subtotal, gst]);
+
+  function handleSave() {
+    setShowToast(true);
+    window.setTimeout(() => setShowToast(false), 2000);
+  }
 
   return (
     <>

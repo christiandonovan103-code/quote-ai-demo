@@ -20,11 +20,17 @@ function money(n) {
 export default function Scope() {
   const nav = useNavigate();
   const [rows, setRows] = useState(initialItems);
+  const [showToast, setShowToast] = useState(false);
 
   const base = useMemo(() => rows.reduce((s, r) => s + (Number(r.cost) || 0), 0), [rows]);
 
   function update(idx, patch) {
     setRows(rows.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  }
+
+  function handleSave() {
+    setShowToast(true);
+    window.setTimeout(() => setShowToast(false), 2000);
   }
 
   return (

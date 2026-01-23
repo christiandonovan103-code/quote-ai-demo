@@ -42,6 +42,7 @@ export default function Analyze() {
   }, [progress, nav]);
 
   const active = useMemo(() => steps[Math.min(idx, steps.length - 1)], [idx]);
+  const isLoading = progress < 100;
 
   return (
     <>
