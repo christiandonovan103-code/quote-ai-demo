@@ -75,8 +75,17 @@ a {
 }
 
 .app-header__logo {
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
   font-size: 18px;
+}
+
+.app-logo {
+  width: 28px;
+  height: 28px;
+  display: block;
 }
 
 .app-header__title {
@@ -158,6 +167,12 @@ a {
 .card-title {
   font-weight: 600;
   font-size: 16px;
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .button {

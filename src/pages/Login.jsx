@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Container from "../components/Container.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
+import logo from "../assets/logo.svg";
 
 export default function Login() {
   const nav = useNavigate();
@@ -9,14 +10,15 @@ export default function Login() {
   return (
     <Container size="sm">
       <Card>
-        <div className="page-heading page-heading--compact">
-          <div style={{ fontWeight: 900, fontSize: 20 }}>Quote AI</div>
-          <div className="badge badge--solid">DEMO</div>
+        <div className="login-brand">
+          <img src={logo} alt="Quote AI logo" className="app-logo" />
+          <div>
+            <div className="card-title">Quote AI</div>
+            <div className="page-subtitle">Demo access</div>
+          </div>
         </div>
 
-        <h1 className="page-title" style={{ marginTop: 14 }}>
-          Log in
-        </h1>
+        <h1 className="page-title section">Log in</h1>
         <p className="page-subtitle">
           This demo skips real authentication. Use Demo Mode to jump into the workflow.
         </p>
@@ -31,7 +33,7 @@ export default function Login() {
           <input placeholder="••••••••" type="password" />
         </div>
 
-        <div className="actions" style={{ marginTop: 16 }}>
+        <div className="actions section">
           <Button variant="primary" fullWidth onClick={() => nav("/dashboard")}>
             Demo Mode
           </Button>

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import Container from "./Container.jsx";
+import logo from "../assets/logo.svg";
 
 const navItems = [
   { label: "Dashboard", to: "/dashboard" },
@@ -13,7 +14,10 @@ export default function AppShell({ title, children }) {
       <header className="app-header">
         <Container size="xl" className="app-header__inner">
           <div className="app-header__brand">
-            <div className="app-header__logo">Quote AI</div>
+            <div className="app-header__logo">
+              <img src={logo} alt="Quote AI logo" className="app-logo" />
+              <span>Quote AI</span>
+            </div>
             <div className="app-header__title">{title}</div>
           </div>
           <div className="user-chip user-chip--demo">Demo</div>
