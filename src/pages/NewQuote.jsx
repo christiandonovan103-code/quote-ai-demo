@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import AppShell from "../components/AppShell.jsx";
+import Header from "../components/Header.jsx";
 import Container from "../components/Container.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
@@ -8,12 +8,13 @@ export default function NewQuote() {
   const nav = useNavigate();
 
   return (
-    <AppShell title="New Quote">
+    <>
+      <Header title="New Quote" backTo="/dashboard" />
       <Container size="md">
         <h1 className="page-title">New Quote</h1>
         <p className="page-subtitle">Capture the basics so Quote AI can draft a scope of works.</p>
 
-        <Card className="section">
+        <Card style={{ marginTop: 16 }}>
           <div className="input-group">
             <div className="input-label">Client name</div>
             <input placeholder="Smith" />
@@ -33,13 +34,13 @@ export default function NewQuote() {
             <input placeholder="12 Example St, Sydney NSW" />
           </div>
 
-          <div className="section">
+          <div style={{ marginTop: 16 }}>
             <Button variant="primary" onClick={() => nav("/upload")}>
               Next: Upload Plans
             </Button>
           </div>
         </Card>
       </Container>
-    </AppShell>
+    </>
   );
 }

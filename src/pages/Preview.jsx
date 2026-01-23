@@ -1,26 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import AppShell from "../components/AppShell.jsx";
+import Header from "../components/Header.jsx";
 import Container from "../components/Container.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
-import Stepper from "../components/Stepper.jsx";
-import QuoteSummary from "../components/QuoteSummary.jsx";
-
-const lineItems = [
-  { description: "Remove existing cabinets", qty: 1, unit: "job", total: "$520" },
-  { description: "Install base & overhead cabinets", qty: 1, unit: "job", total: "$4,200" },
-  { description: "Fit kickers & fillers", qty: 1, unit: "job", total: "$680" },
-  { description: "Skirting & trims", qty: 18, unit: "m", total: "$540" },
-  { description: "Hardware allowance", qty: 1, unit: "allow", total: "$480" },
-];
 
 export default function Preview() {
   const nav = useNavigate();
 
   return (
-    <AppShell title="Preview">
+    <>
+      <Header title="Preview" backTo="/pricing" />
       <Container size="xl">
-        <Stepper current={4} />
         <div className="page-heading">
           <div>
             <h1 className="page-title">Quote preview</h1>
@@ -31,103 +21,63 @@ export default function Preview() {
           </Button>
         </div>
 
-        <div className="content-grid section">
-          <div>
-            <Card className="quote-doc">
-              <div className="quote-doc__header">
-                <div>
-                  <div className="quote-doc__brand">Quote AI Carpentry</div>
-                  <div className="quote-doc__muted">Sydney NSW · ABN 12 345 678 901</div>
-                </div>
-                <div className="quote-doc__meta">
-                  <div className="quote-doc__title">QUOTE</div>
-                  <div className="quote-doc__muted">#QA-1024</div>
-                  <div className="quote-doc__muted">Issued: 23 Sep 2024</div>
-                </div>
-              </div>
-
-              <div className="quote-doc__divider" />
-
-              <div className="quote-doc__grid">
-                <div>
-                  <div className="input-label">Client</div>
-                  <div className="quote-doc__value">Smith Family</div>
-                  <div className="quote-doc__muted">12 Example St, Sydney NSW</div>
-                  <div className="quote-doc__muted">smith@example.com</div>
-                </div>
-                <div>
-                  <div className="input-label">Project</div>
-                  <div className="quote-doc__value">Kitchen Renovation</div>
-                  <div className="quote-doc__muted">Scope generated from plans + photos</div>
-                </div>
-                <div>
-                  <div className="input-label">Total</div>
-                  <div className="quote-doc__total">$8,827.50</div>
-                  <div className="quote-doc__muted">Incl. GST</div>
-                </div>
-              </div>
-
-              <div className="quote-doc__divider" />
-
-              <table className="quote-table">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Qty</th>
-                    <th>Unit</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {lineItems.map((item) => (
-                    <tr key={item.description}>
-                      <td>{item.description}</td>
-                      <td>{item.qty}</td>
-                      <td>{item.unit}</td>
-                      <td>{item.total}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <div className="quote-doc__totals">
-                <div className="quote-doc__row">
-                  <span>Subtotal</span>
-                  <span>$7,900.00</span>
-                </div>
-                <div className="quote-doc__row">
-                  <span>GST (10%)</span>
-                  <span>$927.50</span>
-                </div>
-                <div className="quote-doc__row quote-doc__row--total">
-                  <span>Total</span>
-                  <span>$8,827.50</span>
-                </div>
-              </div>
-
-              <div className="quote-doc__divider" />
-
-              <div>
-                <div className="input-label">Terms</div>
-                <p className="quote-doc__muted">
-                  30% deposit to commence. Balance due on completion. Quote valid for 14 days.
-                </p>
-              </div>
-            </Card>
-
-            <div className="actions section no-print">
-              <Button variant="primary" onClick={() => nav("/sent")}>
-                Send Quote
-              </Button>
-              <Button variant="secondary" onClick={() => nav("/pricing")}>
-                Back
-              </Button>
+        <Card style={{ marginTop: 16 }}>
+          <div className="preview-header">
+            <div>
+              <div style={{ fontWeight: 900, fontSize: 18 }}>Quote AI Carpentry</div>
+              <div className="page-subtitle">Sydney NSW</div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontWeight: 900 }}>QUOTE</div>
+              <div className="page-subtitle">#QA-1024</div>
             </div>
           </div>
 
-          <QuoteSummary />
-        </div>
+          <div className="divider" />
+
+          <div className="grid grid--cards">
+            <div>
+              <div className="input-label">Client</div>
+              <div style={{ fontWeight: 900 }}>Smith</div>
+              <div className="page-subtitle">12 Example St, Sydney NSW</div>
+            </div>
+            <div>
+              <div className="input-label">Job</div>
+              <div style={{ fontWeight: 900 }}>Kitchen Renovation</div>
+              <div className="page-subtitle">Scope generated from plans + photos</div>
+            </div>
+            <div>
+              <div className="input-label">Total</div>
+              <div style={{ fontWeight: 900, fontSize: 22 }}>$8,827.50</div>
+              <div className="page-subtitle">Incl. GST</div>
+            </div>
+          </div>
+
+          <div className="divider" />
+
+          <div style={{ fontWeight: 900, marginBottom: 8 }}>Key scope items</div>
+          <ul className="list">
+            <li>Remove existing cabinets</li>
+            <li>Install base & overhead cabinets</li>
+            <li>Fit kickers & fillers</li>
+            <li>Skirting & trims</li>
+            <li>Hardware allowance</li>
+          </ul>
+
+          <div className="page-subtitle" style={{ fontSize: 12 }}>
+            Terms: 30% deposit to commence • Balance on completion • Valid 14 days.
+          </div>
+
+          <div className="actions no-print" style={{ marginTop: 16 }}>
+            <Button variant="primary" onClick={() => nav("/sent")}>
+              Send Quote
+            </Button>
+            <Button variant="secondary" onClick={() => nav("/pricing")}>
+              Back
+            </Button>
+          </div>
+        </Card>
       </Container>
-    </AppShell>
+    </>
   );
 }
